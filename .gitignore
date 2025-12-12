@@ -1,0 +1,7 @@
+# API 키와 같은 민감한 정보가 포함된 파일을 무시합니다.
+js/config.js
+
+# 운영체제 및 편집기 관련 파일
+.DS_Store
+Thumbs.db
+*.log
