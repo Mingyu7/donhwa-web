@@ -24,7 +24,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- 3. Dynamic Kakao Map Loading (only on location.html) ---
+    // --- 3. Mobile Navigation ---
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinksContainer = document.querySelector('.nav-links');
+
+    if (navToggle && navLinksContainer) {
+        navToggle.addEventListener('click', () => {
+            document.body.classList.toggle('nav-open');
+            navLinksContainer.classList.toggle('nav-open');
+        });
+    }
+
+    // --- 4. Dynamic Kakao Map Loading (only on location.html) ---
     if (document.getElementById('map')) {
         loadMapScript();
     }
@@ -69,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- 4. Portfolio Pagination ---
+    // --- 5. Portfolio Pagination ---
     const galleryGrid = document.querySelector('.gallery-grid');
     if (galleryGrid) {
         const paginationContainer = document.querySelector('.pagination');
@@ -150,8 +161,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // --- 5. Scroll-in Animations ---
-    const animatedElements = document.querySelectorAll('.content-section, .gallery-item-large.active, .value-item');
+    // --- 6. Scroll-in Animations ---
+    const animatedElements = document.querySelectorAll('.fade-in-section');
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
