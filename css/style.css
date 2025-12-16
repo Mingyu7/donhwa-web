@@ -24,7 +24,6 @@ a {
 
 main {
     padding-top: 70px; /* Offset for fixed header */
-    flex-grow: 1; /* Allow main to grow and push footer down */
 }
 
 .content-section {
@@ -135,6 +134,7 @@ main {
     color: #ccc;
     padding: 3rem 2rem; /* Reduced padding */
     font-size: 0.85rem; /* Slightly smaller base font size */
+    margin-top: auto; /* Push footer to the bottom */
 }
 
 .footer-container {
