@@ -39,16 +39,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('map')) {
         loadMapScript();
     }
-    
+    /* map 위치 표시 (위,경도)*/
     function initMap() {
         try {
             const mapContainer = document.getElementById('map');
             const mapOption = { 
-                center: new kakao.maps.LatLng(37.498086, 127.028001),
+                center: new kakao.maps.LatLng(36.7568659565163, 127.017555435462),
                 level: 3 
             };
             const map = new kakao.maps.Map(mapContainer, mapOption);
-            const markerPosition  = new kakao.maps.LatLng(37.498086, 127.028001); 
+            const markerPosition  = new kakao.maps.LatLng(36.7568659565163, 127.017555435462);
             const marker = new kakao.maps.Marker({ position: markerPosition });
             marker.setMap(map);
         } catch (e) {
@@ -180,5 +180,36 @@ document.addEventListener('DOMContentLoaded', function() {
         el.classList.add('fade-in-section');
         observer.observe(el);
     });
+
+    // --- 7. Footer Loader ---
+    const footerPlaceholder = document.getElementById('footer-placeholder');
+    if (footerPlaceholder) {
+        fetch('footer.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                const newFooter = tempDiv.firstElementChild; // Get the actual footer element
+
+                if (newFooter) {
+                    footerPlaceholder.replaceWith(newFooter); // Replace the placeholder with the actual footer
+                    // Since the footer is loaded dynamically and replaced, re-run the animation observer for it
+                    if (newFooter.classList.contains('fade-in-section')) {
+                        observer.observe(newFooter);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error loading footer:', error);
+                if(footerPlaceholder) {
+                    footerPlaceholder.innerHTML = '<p style="text-align: center; color: red;">푸터를 불러오지 못했습니다.</p>';
+                }
+            });
+    }
 
 });

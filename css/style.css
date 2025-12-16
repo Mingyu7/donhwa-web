@@ -180,22 +180,20 @@ main {
 }
 
 #footer .social-links a {
-    display: flex; /* Use flex to center content inside the circle */
-    align-items: center;
-    justify-content: center;
-    width: 60px; /* Increased width */
-    height: 30px; /* Increased height */
-    border-radius: 15px; /* Make it a rounded rectangle */
-    background-color: #a3856d; /* Background color for the circle */
-    color: white; /* Text color */
-    font-size: 0.8rem; /* Adjusted font size */
-    transition: background-color 0.3s, transform 0.3s;
-    text-transform: uppercase; /* Make text uppercase */
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid #a3856d;
+    border-radius: 20px;
+    color: #a3856d;
+    font-size: 0.8rem;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+    text-transform: uppercase;
     font-weight: 700;
+    background-color: transparent;
 }
 
 #footer .social-links a:hover {
-    background-color: #8a6d58; /* Darker on hover */
+    background-color: #a3856d;
     transform: translateY(-2px);
     color: white;
 }
@@ -265,6 +263,21 @@ main {
 
 
 /* --- About Page --- */
+.about-values-section, .about-services-section {
+    padding: 6rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.about-values-section {
+    background-color: #f9f9f9;
+}
+
+.about-services-section {
+    background-color: #f4f4f4;
+}
+
 #about .ceo-message {
     display: flex;
     align-items: center;
@@ -280,6 +293,21 @@ main {
     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
 }
 #about .ceo-message p { font-size: 1rem; font-weight: 300; }
+
+/* About Page Overrides for spacing */
+.about-page .page-header,
+.about-page .content-section,
+.about-page .about-values-section,
+.about-page .about-services-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+.about-page #about .ceo-message,
+.about-page .values-grid,
+.about-page .services-grid {
+    margin-top: 3rem;
+}
 
 .values-grid {
     display: grid;
@@ -306,15 +334,15 @@ main {
 
 .service-item {
     background-color: #f9f9f9;
-    padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     transition: transform 0.3s, box-shadow 0.3s;
-    width: 200px;
     border: 1px solid #eee;
     overflow: hidden;
     text-align: center;
     font-size: 13px;
+    display: flex;
+    flex-direction: column;
 }
 
 .service-item:hover {
@@ -324,28 +352,39 @@ main {
 
 .service-item img {
     width: 100%;
-    height: 120px;
+    height: 180px; /* Increased height for better proportion */
     object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
+}
+
+.service-item-text-wrapper {
+    padding: 1.5rem;
+    background-color: white;
+    flex-grow: 1; /* Ensure text wrapper fills space */
+    border-top: 1px solid #eee; /* Add a separator line */
 }
 
 .service-item h3 {
-    font-size: 16px;
-    margin: 10px 0 5px;
+    font-size: 1.1rem; /* Slightly larger font */
+    margin: 0 0 0.5rem 0;
 }
 
 .service-item p {
     font-size: 0.9rem;
     line-height: 1.6;
-    padding: 0 10px 15px;
     color: #666;
+    padding: 0; /* Remove old padding */
+    margin: 0;
 }
 
 
 
 /* --- Portfolio Page --- */
 
+.gallery-link-wrapper {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
 
 .gallery-grid {
     display: grid;
@@ -364,7 +403,7 @@ main {
 }
 .gallery-item-large img {
     width: 100%;
-    height: 100%;
+    height: 250px; /* Set a fixed height for consistent block size */
     object-fit: cover;
     display: block;
     transition: transform 0.4s ease, opacity 0.4s ease;
