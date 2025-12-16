@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- 6. Scroll-in Animations ---
     const animatedElements = document.querySelectorAll('.fade-in-section');
 
-    const observer = new IntersectionObserver((entries) => {
+    const animationObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     animatedElements.forEach(el => {
         el.classList.add('fade-in-section');
-        observer.observe(el);
+        animationObserver.observe(el);
     });
 
     // --- 7. Footer Loader ---
@@ -197,10 +197,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const newFooter = tempDiv.firstElementChild; // Get the actual footer element
 
                 if (newFooter) {
-                    footerPlaceholder.replaceWith(newFooter); // Replace the placeholder with the actual footer
-                    // Since the footer is loaded dynamically and replaced, re-run the animation observer for it
+                    footerPlaceholder.replaceWith(newFooter); // Replace the placeholder
+                    // Re-run the animation observer for the new footer
                     if (newFooter.classList.contains('fade-in-section')) {
-                        observer.observe(newFooter);
+                        animationObserver.observe(newFooter);
                     }
                 }
             })
@@ -211,5 +211,73 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
     }
+
+    // --- 8. Custom Cursor ---
+    const cursorDot = document.createElement('div');
+    cursorDot.className = 'cursor-dot';
+    document.body.appendChild(cursorDot);
+
+    const cursorOutline = document.createElement('div');
+    cursorOutline.className = 'cursor-outline';
+    document.body.appendChild(cursorOutline);
+
+    let mouseX = 0, mouseY = 0;
+    let outlineX = 0, outlineY = 0;
+    let isVisible = false;
+
+    window.addEventListener('mousemove', e => {
+        if (!isVisible) {
+            cursorDot.style.opacity = '1';
+            cursorOutline.style.opacity = '1';
+            isVisible = true;
+        }
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    const animateCursor = () => {
+        cursorDot.style.left = `${mouseX}px`;
+        cursorDot.style.top = `${mouseY}px`;
+        
+        outlineX += (mouseX - outlineX) * 0.1;
+        outlineY += (mouseY - outlineY) * 0.1;
+        cursorOutline.style.left = `${outlineX}px`;
+        cursorOutline.style.top = `${outlineY}px`;
+
+        requestAnimationFrame(animateCursor);
+    };
+    
+    requestAnimationFrame(animateCursor);
+
+    const handleLinkHover = (e) => {
+        cursorOutline.classList.add('link-hover');
+    };
+    const handleLinkLeave = (e) => {
+        cursorOutline.classList.remove('link-hover');
+    };
+
+    const addHoverListeners = (container) => {
+        container.querySelectorAll('a, button, .gallery-item-large, .nav-toggle').forEach(el => {
+            el.addEventListener('mouseover', handleLinkHover);
+            el.addEventListener('mouseleave', handleLinkLeave);
+        });
+    }
+
+    addHoverListeners(document);
+
+    // Observe body for changes to apply hover listeners to new elements (like footer)
+    const cursorMutationObserver = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+            if (mutation.type === 'childList') {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        addHoverListeners(node);
+                    }
+                });
+            }
+        }
+    });
+
+    cursorMutationObserver.observe(document.body, { childList: true, subtree: true });
 
 });
